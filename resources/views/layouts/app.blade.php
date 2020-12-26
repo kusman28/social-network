@@ -17,7 +17,6 @@
 </head>
 <body class="bg-gray-100 h-screen antialiased leading-none font-sans">
     <div id="app" class="flex container h-screen w-full">
-        <side-nav></side-nav>
         {{-- <header class="bg-green-700 py-6">
             <div class="container mx-auto flex justify-between items-center px-6">
                 <div>
