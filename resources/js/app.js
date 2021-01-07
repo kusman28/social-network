@@ -5,14 +5,19 @@
  */
 
 require('./bootstrap');
-
 window.Vue = require('vue');
+import router from './router'
 
 import { Form, HasError, AlertError } from 'vform'
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
+Vue.config.ignoredElements = [/^ion-/]
+
+//Events
+let Event = new Vue()
+window.Event = Event;
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -28,6 +33,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('side-nav-left', require('./components/Navigation/SideBarLeft.vue').default);
 Vue.component('side-nav-right', require('./components/Navigation/SideBarRight.vue').default);
 Vue.component('home', require('./components/Home/Home.vue').default);
+Vue.component('profile', require('./components/Profile/Index.vue').default);
+Vue.component('wildcat-svg', require('./components/Wildcat.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -37,4 +44,5 @@ Vue.component('home', require('./components/Home/Home.vue').default);
 
 const app = new Vue({
     el: '#app',
+    router
 });

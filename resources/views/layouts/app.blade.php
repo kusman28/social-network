@@ -44,8 +44,10 @@
                 </nav>
             </div>
         </header> --}}
-
         @yield('content')
+        <router-view></router-view>
+        @yield('right')
+        {{-- <side-nav-right></side-nav-right> --}}
     </div>
     
     {{-- Icons --}}
