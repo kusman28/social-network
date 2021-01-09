@@ -24,6 +24,17 @@ Route::get('user/profile', 'API\ProfileController@profile');
 
 Route::post('post/save', 'PostController@store');
 Route::get('posts', 'PostController@index')->name('posts.index');
+Route::get('post/{slug}','PostController@show')->name('post');
+
+// Follow
 Route::get('users/{user}', 'UserController@show')->name('user.show');
 Route::get('users/{user}/follow', 'UserController@follow')->name('user.follow');
 Route::get('users/{user}/unfollow', 'UserController@unfollow')->name('user.unfollow');
+
+// Like
+Route::post('/like','PostController@getlike');
+Route::post('/like/{id}','PostController@like');
+ 
+// Dislike
+Route::post('/dislike','PostController@getDislike');
+Route::post('/dislike/{id}','PostController@dislike');

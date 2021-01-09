@@ -34,6 +34,9 @@ Vue.component('side-nav-left', require('./components/Navigation/SideBarLeft.vue'
 Vue.component('side-nav-right', require('./components/Navigation/SideBarRight.vue').default);
 Vue.component('home', require('./components/Home/Home.vue').default);
 Vue.component('profile', require('./components/Profile/Index.vue').default);
+Vue.component('like', require('./components/LikeDislike/Like.vue').default);
+Vue.component('dislike', require('./components/LikeDislike/Dislike.vue').default);
+
 Vue.component('wildcat-svg', require('./components/Wildcat.vue').default);
 
 /**

@@ -21,7 +21,6 @@
           v-model="body"
           placeholder="Meow something..."
           class="p-5 mt-3 w-full focus:outline-none"
-          required
         />
         <div class="flex items-center mt-2">
           <button class="flex hover:bg-lighter p-3">
@@ -32,7 +31,7 @@
           </button>
           <button
             type="submit"
-            class="h-10 px-5 text-white font-semibold bg-green-500 hover:bg-green-800 focus:outline-none rounded-full absolute bottom-0 right-0 mr-4"
+            class="h-10 px-5 text-white font-semibold bg-green-500 focus:outline-none rounded-full absolute bottom-0 right-0 mr-4"
           >
             Post
           </button>
@@ -43,15 +42,14 @@
       <div class="flex justify-center" v-if="!posts.length">
         <wildcat-svg></wildcat-svg>
       </div>
-      <div
-        v-for="post in posts"
-        :key="post.id"
-        class="w-full p-4 border-b hover:bg-lighter flex bg-white"
-      >
+      <div v-for="post in posts"
+        :key="post.id">
+        <a class="w-full" :href="`post/`+post.slug">
+          <div class="w-full p-4 border-b hover:bg-green-100 flex bg-white">
         <div class="flex-none mr-4">
           <img
-            src="/images/UZ-BabyWildCat2018.png"
-            class="h-12 w-12 rounded-full flex-none border border-lighter"
+            :src="post.user.profile_pic"
+            class="m-4 h-12 w-12 rounded-full flex-none border border-lighter"
           />
         </div>
         <div class="w-full">
@@ -67,25 +65,32 @@
               ></ion-icon>
             </button>
           </div>
-          <p class="text-sm text-gray-500">
-            <ion-icon name="time"></ion-icon>
+          <p class="text-sm flex items-center text-gray-500">
+            <ion-icon class="mr-1" name="time"></ion-icon>
             {{ post.createdDate }}
           </p>
           <p class="py-2 text-xl">
             {{ post.body }}
           </p>
           <div class="flex items-center w-full text-gray-700 mt-3">
+            <div class="flex items-center text-md text-gray-500 hover:text-green-500">
+              <ion-icon name="thumbs-up-sharp"></ion-icon>
+              <p class="mr-4 ml-1">{{ post.likes.length }}</p>
+            </div>
             <div class="flex items-center text-sm text-dark">
-              <ion-icon name="heart-circle"></ion-icon>
-              <p class="mr-2 ml-1">3</p>
+              <ion-icon name="thumbs-down-sharp"></ion-icon>
+              <p class="mr-4 ml-1">{{ post.dislike }}</p>
             </div>
             <div class="flex items-center text-sm text-dark">
               <ion-icon name="chatbubble"></ion-icon>
-              <p class="mr-2 ml-1">2</p>
+              <p class="ml-1">2</p>
             </div>
           </div>
         </div>
       </div>
+        </a>
+      </div>
+      
     </div>
     <!-- <div
       v-for="follow in following"
@@ -130,7 +135,8 @@
 export default {
   data() {
     return {
-      body: "",
+      body: '',
+      slug: '',
       posts: [],
       friends: [
         {
@@ -198,7 +204,7 @@ export default {
   methods: {
     savePost() {
       axios
-        .post("/post/save", { body: this.body })
+        .post("/post/save", { body: this.body, slug: this.slug })
         .then((res) => {
           this.postData = res.data;
           Event.$emit("added_post", this.postData);
@@ -207,6 +213,7 @@ export default {
           console.log(e);
         });
       this.body = "";
+      this.slug = "";
     },
     addNewTweet() {
       let newTweet = {
