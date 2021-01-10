@@ -16,7 +16,7 @@ class PostController extends Controller
                         ->with('user')
                         ->with('likes')
                         ->orderBy('created_at', 'asc')
-                        ->take($request->get('limit', 10))
+                        ->take($request->get('limit', 30))
                         ->get();
         return response()->json($posts);
     }
@@ -27,6 +27,12 @@ class PostController extends Controller
         // $slug = Post::with('likes')->get();
         // return response()->json($slug);
     }
+
+    // public function totalLike()
+    // {
+    //     $slug = Post::with('likes')->get();
+    //     return response()->json($slug);
+    // }
 
     public function store(Request $request, Post $post)
     {   
@@ -57,9 +63,20 @@ class PostController extends Controller
 
         if ($likeCheck) {
 
+            $post = Post::find($request->post);
+            $value = $post->like;
+            $post->like = $value-1;
+            $post->save();
+
             Like::where(['user_id' => \Auth::id(), 'post_id' => $request->id])->delete();
             return 'unliked';
+
         } else {
+
+            $post = Post::find($request->post);
+            $value = $post->like;
+            $post->like = $value+1;
+            $post->save();
 
             $like = new Like;
             $like->user_id = \Auth::id();
@@ -68,10 +85,6 @@ class PostController extends Controller
 
         }
 
-        // $post = Post::find($request->post);
-        // $value = $post->like;
-        // $post->like = $value+1;
-        // $post->save();
 
         // return response()->json([
         //     'message' => 'Liked!',

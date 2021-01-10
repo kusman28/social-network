@@ -2074,68 +2074,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       body: '',
-      slug: '',
       posts: [],
-      friends: [{
-        src: "/images/profile/UZ-Wildcats.jpg",
-        name: "Elon Musk",
-        handle: "@teslaBoy"
-      }, {
-        src: "/images/profile/UZ-Wildcats.jpg",
-        name: "Adrian Monk",
-        handle: "@detective:)"
-      }, {
-        src: "/images/profile/UZ-Wildcats.jpg",
-        name: "Kevin Hart",
-        handle: "@miniRock"
-      }],
-      following: [{
-        src: "/images/profile/UZ-Wildcats.jpg",
-        name: "Elon Musk",
-        handle: "@teslaBoy",
-        time: "20 min",
-        tweet: "Should I just quarantine on mars??",
-        comments: "1,000",
-        retweets: "550",
-        like: "1,000,003"
-      }, {
-        src: "/images/profile/UZ-Wildcats.jpg",
-        name: "Kevin Hart",
-        handle: "@miniRock",
-        time: "55 min",
-        tweet: "Should me and the rock do another sub-par movie together????",
-        comments: "2,030",
-        retweets: "50",
-        like: "20,003"
-      }, {
-        src: "/images/profile/UZ-Wildcats.jpg",
-        name: "Elon Musk",
-        handle: "@teslaBoy",
-        time: "1.4 hr",
-        tweet: "Haha just made a flame thrower. Shld I sell them?",
-        comments: "100,000",
-        retweets: "1,000,002",
-        like: "5,000,003"
-      }, {
-        src: "/images/profile/UZ-Wildcats.jpg",
-        name: "Elon Musk",
-        handle: "@teslaBoy",
-        time: "1.4 hr",
-        tweet: "Just did something crazyyyyyyy",
-        comments: "100,500",
-        retweets: "1,000,032",
-        like: "5,000,103"
-      }],
-      tweets: [{
-        content: "It is so nice outside!"
-      }],
-      tweet: {
-        content: ""
-      }
+      totalLike: 0
     };
   },
   methods: {
@@ -2143,8 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post("/post/save", {
-        body: this.body,
-        slug: this.slug
+        body: this.body
       }).then(function (res) {
         _this.postData = res.data;
         Event.$emit("added_post", _this.postData);
@@ -2152,7 +2101,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(e);
       });
       this.body = "";
-      this.slug = "";
     },
     addNewTweet: function addNewTweet() {
       var newTweet = {
@@ -2166,15 +2114,30 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/posts').then(function (response) {
         _this2.posts = response.data;
       });
+    },
+    likePost: function likePost() {
+      var _this3 = this;
+
+      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.post.id;
+      axios.post('/like/' + id, {
+        post: id
+      }).then(function (response) {
+        if (response.data == 'unliked') {
+          _this3.totalLike -= 1;
+        } else {
+          _this3.totalLike += 1;
+        }
+      })["catch"]();
     }
   },
-  mounted: function mounted() {
-    var _this3 = this;
+  created: function created() {
+    var _this4 = this;
 
+    this.totalLike = this.posts.like;
     this.loadTwiteFromSpecificUser();
     Event.$on('added_post', function (post) {
       //unshift -> Add new items to the beginning of an array:
-      _this3.posts.unshift(post);
+      _this4.posts.unshift(post);
     });
   }
 });
@@ -2631,7 +2594,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* width */\n::-webkit-scrollbar {\n  width: 0.2em;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\n  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\n  background-color: darkgrey;\n  outline: 1px solid slategrey;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* width */\n::-webkit-scrollbar {\n  width: 0.2em;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\n  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\n  background-color: darkgrey;\n  outline: 1px solid slategrey;\n}\n", ""]);
 
 // exports
 
@@ -22162,7 +22125,7 @@ var render = function() {
                       _c("div", { staticClass: "flex-none mr-4" }, [
                         _c("img", {
                           staticClass:
-                            "m-4 h-12 w-12 rounded-full flex-none border border-lighter",
+                            "h-12 w-12 rounded-full flex-none border border-lighter",
                           attrs: { src: post.user.profile_pic }
                         })
                       ]),
@@ -22237,55 +22200,81 @@ var render = function() {
                           },
                           [
                             _c(
-                              "div",
+                              "button",
                               {
                                 staticClass:
-                                  "flex items-center text-md text-gray-500 hover:text-green-500"
+                                  "flex focus:outline-none rounded-full hover:bg-green-200 p-3",
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.likePost(post.id)
+                                  }
+                                }
                               },
                               [
-                                _c("ion-icon", {
-                                  attrs: { name: "thumbs-up-sharp" }
-                                }),
-                                _vm._v(" "),
-                                _c("p", { staticClass: "mr-4 ml-1" }, [
-                                  _vm._v(_vm._s(post.likes.length))
-                                ])
-                              ],
-                              1
+                                _c(
+                                  "div",
+                                  { staticClass: "flex items-center" },
+                                  [
+                                    _c("ion-icon", {
+                                      attrs: { name: "thumbs-up-sharp" }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "ml-1" }, [
+                                      _vm._v(_vm._s(_vm.totalLike))
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ]
                             ),
                             _vm._v(" "),
                             _c(
-                              "div",
+                              "button",
                               {
                                 staticClass:
-                                  "flex items-center text-sm text-dark"
+                                  "flex focus:outline-none rounded-full hover:bg-green-200 p-3"
                               },
                               [
-                                _c("ion-icon", {
-                                  attrs: { name: "thumbs-down-sharp" }
-                                }),
-                                _vm._v(" "),
-                                _c("p", { staticClass: "mr-4 ml-1" }, [
-                                  _vm._v(_vm._s(post.dislike))
-                                ])
-                              ],
-                              1
+                                _c(
+                                  "div",
+                                  { staticClass: "flex items-center" },
+                                  [
+                                    _c("ion-icon", {
+                                      attrs: { name: "thumbs-down-sharp" }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "ml-1" }, [
+                                      _vm._v(_vm._s(post.dislike))
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ]
                             ),
                             _vm._v(" "),
                             _c(
-                              "div",
+                              "button",
                               {
                                 staticClass:
-                                  "flex items-center text-sm text-dark"
+                                  "flex focus:outline-none rounded-full hover:bg-green-200 p-3"
                               },
                               [
-                                _c("ion-icon", {
-                                  attrs: { name: "chatbubble" }
-                                }),
-                                _vm._v(" "),
-                                _c("p", { staticClass: "ml-1" }, [_vm._v("2")])
-                              ],
-                              1
+                                _c(
+                                  "div",
+                                  { staticClass: "flex items-center" },
+                                  [
+                                    _c("ion-icon", {
+                                      attrs: { name: "chatbubble" }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("p", { staticClass: "ml-1" }, [
+                                      _vm._v("2")
+                                    ])
+                                  ],
+                                  1
+                                )
+                              ]
                             )
                           ]
                         )
@@ -22382,37 +22371,29 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass:
-        "lg:w-1/5 border-r border-lighter px-2 lg:px-6 py-2 flex flex-col justify-between"
-    },
-    [
-      _c("p", { staticClass: "text-lg text-gray-700" }, [_vm._v("ASDDSA")]),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass: "text-lg text-gray-700",
-          staticStyle: { cursor: "pointer" },
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.likePost($event)
-            }
+  return _c("div", { staticClass: "container" }, [
+    _c("p", { attrs: { id: "success" } }),
+    _vm._v(" "),
+    _c(
+      "a",
+      {
+        staticStyle: { cursor: "pointer" },
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            return _vm.likePost($event)
           }
-        },
-        [
-          _c("ion-icon", {
-            attrs: { name: "thumbs-up-sharp", "aria-hidden": "true" }
-          }),
-          _vm._v("(" + _vm._s(_vm.totalLike) + ")")
-        ],
-        1
-      )
-    ]
-  )
+        }
+      },
+      [
+        _c("ion-icon", {
+          attrs: { name: "thumbs-up-sharp", "aria-hidden": "true" }
+        }),
+        _vm._v("(" + _vm._s(_vm.totalLike) + ")")
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -22523,7 +22504,7 @@ var render = function() {
           [
             _c("img", {
               staticClass: "w-10 h-10 rounded-full border border-lighter",
-              attrs: { src: _vm.getProfilePhoto() }
+              attrs: { src: _vm.form.profile_pic }
             }),
             _vm._v(" "),
             _c("div", { staticClass: "hidden lg:block ml-4" }, [
@@ -22568,7 +22549,7 @@ var render = function() {
                       _c("img", {
                         staticClass:
                           "w-10 h-10 rounded-full border border-lighter",
-                        attrs: { src: _vm.getProfilePhoto() }
+                        attrs: { src: _vm.form.profile_pic }
                       }),
                       _vm._v(" "),
                       _c("div", { staticClass: "m-auto mr-2" }, [

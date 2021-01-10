@@ -1,7 +1,7 @@
 <template>
-    <div class="lg:w-1/5 border-r border-lighter px-2 lg:px-6 py-2 flex flex-col justify-between">
-        <p class="text-lg text-gray-700">ASDDSA</p>
-       <a class="text-lg text-gray-700" style="cursor: pointer" @click.prevent="likePost"><ion-icon name="thumbs-up-sharp" aria-hidden="true"></ion-icon>({{ totalLike }})</a>
+    <div class="container">
+        <p id="success"></p>
+       <a style="cursor: pointer" @click.prevent="likePost"><ion-icon name="thumbs-up-sharp" aria-hidden="true"></ion-icon>({{ totalLike }})</a>
     </div>
 </template>
  
@@ -32,7 +32,7 @@
                     console.log(response.data.post.like)
                     this.totalLike = response.data.post.like
                 })
-            },
+            }
         },
         mounted() {
             this.getlike()

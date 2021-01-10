@@ -25,7 +25,7 @@
         </div>
         <div class="w-full relative">
             <button @click="dropdown = true" class="flex items-center w-full hover:bg-green-500 hover:text-white rounded-full p-2 focus:outline-none">
-                <img :src="getProfilePhoto()" class="w-10 h-10 rounded-full border border-lighter" />
+                <img :src="form.profile_pic" class="w-10 h-10 rounded-full border border-lighter" />
                 <div class="hidden lg:block ml-4">
                     <p class="text-sm font-bold leading-tight"> {{form.name}}</p>
                     <p class="text-sm leading-tight"> @{{form.student_no}}</p>
@@ -35,7 +35,7 @@
             <div v-if="dropdown === true" class="absolute bottom-0 left-0 w-64 rounded-lg shadow-md border-lightest bg-white mb-16">
                 <router-link to="/profile">
                     <button @click="dropdown = false" class="p-3 flex items-center w-full hover:bg-green-100 hover:text-green p-2 focus:outline-none">
-                            <img :src="getProfilePhoto()" class="w-10 h-10 rounded-full border border-lighter" />
+                            <img :src="form.profile_pic" class="w-10 h-10 rounded-full border border-lighter" />
                             <div class="m-auto mr-2">
                                 <p class="text-sm font-bold leading-tight"> {{form.name}}</p>
                                 <p class="text-sm leading-tight"> Profile</p>

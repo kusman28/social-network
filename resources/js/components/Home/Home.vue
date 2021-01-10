@@ -49,7 +49,7 @@
         <div class="flex-none mr-4">
           <img
             :src="post.user.profile_pic"
-            class="m-4 h-12 w-12 rounded-full flex-none border border-lighter"
+            class="h-12 w-12 rounded-full flex-none border border-lighter"
           />
         </div>
         <div class="w-full">
@@ -73,18 +73,24 @@
             {{ post.body }}
           </p>
           <div class="flex items-center w-full text-gray-700 mt-3">
-            <div class="flex items-center text-md text-gray-500 hover:text-green-500">
-              <ion-icon name="thumbs-up-sharp"></ion-icon>
-              <p class="mr-4 ml-1">{{ post.likes.length }}</p>
-            </div>
-            <div class="flex items-center text-sm text-dark">
-              <ion-icon name="thumbs-down-sharp"></ion-icon>
-              <p class="mr-4 ml-1">{{ post.dislike }}</p>
-            </div>
-            <div class="flex items-center text-sm text-dark">
-              <ion-icon name="chatbubble"></ion-icon>
-              <p class="ml-1">2</p>
-            </div>
+            <button class="flex focus:outline-none rounded-full hover:bg-green-200 p-3" @click.prevent="likePost(post.id)">
+              <div class="flex items-center">
+                <ion-icon name="thumbs-up-sharp"></ion-icon>
+                <p class="ml-1">{{ totalLike }}</p>
+              </div>
+            </button>
+            <button class="flex focus:outline-none rounded-full hover:bg-green-200 p-3">
+              <div class="flex items-center">
+                <ion-icon name="thumbs-down-sharp"></ion-icon>
+                <p class="ml-1">{{ post.dislike }}</p>
+              </div>
+            </button>
+            <button class="flex focus:outline-none rounded-full hover:bg-green-200 p-3">
+              <div class="flex items-center">
+                <ion-icon name="chatbubble"></ion-icon>
+                <p class="ml-1">2</p>
+              </div>
+            </button>
           </div>
         </div>
       </div>
@@ -136,75 +142,14 @@ export default {
   data() {
     return {
       body: '',
-      slug: '',
       posts: [],
-      friends: [
-        {
-          src: "/images/profile/UZ-Wildcats.jpg",
-          name: "Elon Musk",
-          handle: "@teslaBoy",
-        },
-        {
-          src: "/images/profile/UZ-Wildcats.jpg",
-          name: "Adrian Monk",
-          handle: "@detective:)",
-        },
-        {
-          src: "/images/profile/UZ-Wildcats.jpg",
-          name: "Kevin Hart",
-          handle: "@miniRock",
-        },
-      ],
-      following: [
-        {
-          src: "/images/profile/UZ-Wildcats.jpg",
-          name: "Elon Musk",
-          handle: "@teslaBoy",
-          time: "20 min",
-          tweet: "Should I just quarantine on mars??",
-          comments: "1,000",
-          retweets: "550",
-          like: "1,000,003",
-        },
-        {
-          src: "/images/profile/UZ-Wildcats.jpg",
-          name: "Kevin Hart",
-          handle: "@miniRock",
-          time: "55 min",
-          tweet: "Should me and the rock do another sub-par movie together????",
-          comments: "2,030",
-          retweets: "50",
-          like: "20,003",
-        },
-        {
-          src: "/images/profile/UZ-Wildcats.jpg",
-          name: "Elon Musk",
-          handle: "@teslaBoy",
-          time: "1.4 hr",
-          tweet: "Haha just made a flame thrower. Shld I sell them?",
-          comments: "100,000",
-          retweets: "1,000,002",
-          like: "5,000,003",
-        },
-        {
-          src: "/images/profile/UZ-Wildcats.jpg",
-          name: "Elon Musk",
-          handle: "@teslaBoy",
-          time: "1.4 hr",
-          tweet: "Just did something crazyyyyyyy",
-          comments: "100,500",
-          retweets: "1,000,032",
-          like: "5,000,103",
-        },
-      ],
-      tweets: [{ content: "It is so nice outside!" }],
-      tweet: { content: "" },
+      totalLike: 0,
     };
   },
   methods: {
     savePost() {
       axios
-        .post("/post/save", { body: this.body, slug: this.slug })
+        .post("/post/save", { body: this.body })
         .then((res) => {
           this.postData = res.data;
           Event.$emit("added_post", this.postData);
@@ -213,7 +158,6 @@ export default {
           console.log(e);
         });
       this.body = "";
-      this.slug = "";
     },
     addNewTweet() {
       let newTweet = {
@@ -225,14 +169,26 @@ export default {
       axios.get('/posts').then((response => {
         this.posts = response.data;
       }));
-    }
+    },
+    likePost(id = this.post.id) {
+      axios.post('/like/'+id, { post: id })
+      .then(response =>{
+          if (response.data == 'unliked') {
+              this.totalLike -= 1;
+          } else {
+              this.totalLike += 1;
+          }
+      })
+      .catch()
+    },
   },
-  mounted() {
-      this.loadTwiteFromSpecificUser();
-      Event.$on('added_post', (post) => {
-          //unshift -> Add new items to the beginning of an array:
-          this.posts.unshift(post);
-      });
+  created() {
+    this.totalLike = this.posts.like
+    this.loadTwiteFromSpecificUser();
+    Event.$on('added_post', (post) => {
+        //unshift -> Add new items to the beginning of an array:
+        this.posts.unshift(post);
+    });
   }
 };
 </script>
