@@ -142,8 +142,8 @@ export default {
   data() {
     return {
       body: '',
-      posts: [],
-      totalLike: 0,
+      posts: {},
+      totalLike: '',
     };
   },
   methods: {
@@ -165,9 +165,10 @@ export default {
       };
       this.tweets.push(newTweet);
     },
-    loadTwiteFromSpecificUser(){
+    getUsersPost(){
       axios.get('/posts').then((response => {
         this.posts = response.data;
+        this.totalLike = this.posts.user
       }));
     },
     likePost(id = this.post.id) {
@@ -183,8 +184,7 @@ export default {
     },
   },
   created() {
-    this.totalLike = this.posts.like
-    this.loadTwiteFromSpecificUser();
+    this.getUsersPost();
     Event.$on('added_post', (post) => {
         //unshift -> Add new items to the beginning of an array:
         this.posts.unshift(post);

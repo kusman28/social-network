@@ -14,9 +14,10 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <style>
         body {
-            background-image: url('/images/undraw_social_friends_nsbv.svg');
+            background-image: url('/images/undraw_welcome_cats_thqn.svg');
             background-repeat: no-repeat; 
-            background-position: center center;
+            background-position: bottom 30px center;
+            background-size: 550px;
         }
     </style>
 </head>
@@ -35,13 +36,14 @@
         </div>
     @endif
 
-    <div class="min-h-screen flex items-center justify-center">
+    <div class="min-h-screen flex items-center justify-center -my-32">
         
-        <img class="h-20 w-20 rounded-full mr-5" src="/images/profile/UZ-Wildcats.jpg" />
+        <img class="w-20 rounded-full mr-5" src="/images/profile/UZ-Wildcats.jpg" />
         <div class="flex flex-col justify-around h-full">
             <div>
                 <h1 class="text-green-600 text-center font-bold tracking-wider text-5xl"> 
-                    UZ Wildcats
+                    UZ Wildcats </br><hr>
+                    <p class="text-lg italic text-gray-900 font-thin">Universidad de Zamboanga</p>
                 </h1>
             </div>
         </div>

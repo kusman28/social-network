@@ -2084,8 +2084,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       body: '',
-      posts: [],
-      totalLike: 0
+      posts: {},
+      totalLike: ''
     };
   },
   methods: {
@@ -2108,11 +2108,12 @@ __webpack_require__.r(__webpack_exports__);
       };
       this.tweets.push(newTweet);
     },
-    loadTwiteFromSpecificUser: function loadTwiteFromSpecificUser() {
+    getUsersPost: function getUsersPost() {
       var _this2 = this;
 
       axios.get('/posts').then(function (response) {
         _this2.posts = response.data;
+        _this2.totalLike = _this2.posts.user;
       });
     },
     likePost: function likePost() {
@@ -2133,8 +2134,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this4 = this;
 
-    this.totalLike = this.posts.like;
-    this.loadTwiteFromSpecificUser();
+    this.getUsersPost();
     Event.$on('added_post', function (post) {
       //unshift -> Add new items to the beginning of an array:
       _this4.posts.unshift(post);
@@ -23027,7 +23027,7 @@ var render = function() {
           d:
             "M863.98522,415.199l-.97489-12.39806-.97489-12.39809a3.82528,3.82528,0,0,0-5.98-2.8528l-10.24962,7.04331-7.48458,5.14325a5.09542,5.09542,0,0,0-7.74914,0l-7.48459-5.14325L812.83794,387.55a3.82528,3.82528,0,0,0-5.98,2.8528l-.97489,12.39809-.97489,12.39806a3.82528,3.82528,0,0,0,5.4606,3.75238l11.22448-5.35474,9.22263-4.39977a5.10117,5.10117,0,0,0,7.26159,0l9.22264,4.39977,11.22448,5.35474A3.82528,3.82528,0,0,0,863.98522,415.199Z",
           transform: "translate(-155.46222 -220.31024)",
-          fill: "#00bfa6"
+          fill: "#38a169"
         }
       }),
       _c("circle", {
@@ -23167,7 +23167,7 @@ var render = function() {
           d:
             "M361.80966,260.25756l.97489-12.39806.97489-12.39808a3.82528,3.82528,0,0,1,5.98-2.85281l10.24962,7.04332,7.48459,5.14325a5.09539,5.09539,0,0,1,7.74913,0l7.48459-5.14325,10.24962-7.04332a3.82528,3.82528,0,0,1,5.98,2.85281l.97489,12.39808.97489,12.39806a3.82528,3.82528,0,0,1-5.46059,3.75239L404.2016,258.6552l-9.22264-4.39977a5.10114,5.10114,0,0,1-7.26159,0l-9.22264,4.39977L367.27025,264.01A3.82528,3.82528,0,0,1,361.80966,260.25756Z",
           transform: "translate(-155.46222 -220.31024)",
-          fill: "#00bfa6"
+          fill: "#38a169"
         }
       }),
       _c("path", {
@@ -23198,14 +23198,14 @@ var render = function() {
           d:
             "M672.25275,469.09857V616.643h73.314V469.09857Zm58.65118,132.8816h-43.9884V483.76142h43.9884Z",
           transform: "translate(-155.46222 -220.31024)",
-          fill: "#00bfa6"
+          fill: "#38a169"
         }
       }),
       _c("polygon", {
         attrs: {
           points:
             "313.344 381.67 313.344 249.705 298.681 249.705 298.681 381.67 298.681 396.333 313.344 396.333 371.995 396.333 371.995 381.67 313.344 381.67",
-          fill: "#00bfa6"
+          fill: "#38a169"
         }
       }),
       _c("polygon", {
@@ -23219,7 +23219,7 @@ var render = function() {
         attrs: {
           points:
             "839.372 263.451 839.372 248.788 766.058 248.788 766.058 249.705 766.058 263.451 766.058 314.771 766.058 329.434 766.058 381.67 766.058 396.333 780.721 396.333 839.372 396.333 839.372 381.67 780.721 381.67 780.721 329.434 839.372 329.434 839.372 314.771 780.721 314.771 780.721 263.451 839.372 263.451",
-          fill: "#00bfa6"
+          fill: "#38a169"
         }
       }),
       _c("polygon", {
@@ -23237,25 +23237,25 @@ var render = function() {
         }
       }),
       _c("circle", {
-        attrs: { cx: "335.07556", cy: "150.37952", r: "9", fill: "#00bfa6" }
+        attrs: { cx: "335.07556", cy: "150.37952", r: "9", fill: "#38a169" }
       }),
       _c("circle", {
-        attrs: { cx: "113.07556", cy: "250.37952", r: "9", fill: "#00bfa6" }
+        attrs: { cx: "113.07556", cy: "250.37952", r: "9", fill: "#38a169" }
       }),
       _c("circle", {
-        attrs: { cx: "291.07556", cy: "450.37952", r: "9", fill: "#00bfa6" }
+        attrs: { cx: "291.07556", cy: "450.37952", r: "9", fill: "#38a169" }
       }),
       _c("circle", {
-        attrs: { cx: "517.07556", cy: "177.37952", r: "9", fill: "#00bfa6" }
+        attrs: { cx: "517.07556", cy: "177.37952", r: "9", fill: "#38a169" }
       }),
       _c("circle", {
-        attrs: { cx: "782.07556", cy: "442.37952", r: "9", fill: "#00bfa6" }
+        attrs: { cx: "782.07556", cy: "442.37952", r: "9", fill: "#38a169" }
       }),
       _c("circle", {
-        attrs: { cx: "791.07556", cy: "206.37952", r: "9", fill: "#00bfa6" }
+        attrs: { cx: "791.07556", cy: "206.37952", r: "9", fill: "#38a169" }
       }),
       _c("circle", {
-        attrs: { cx: "677.07556", cy: "368.37952", r: "9", fill: "#00bfa6" }
+        attrs: { cx: "677.07556", cy: "368.37952", r: "9", fill: "#38a169" }
       })
     ]
   )
