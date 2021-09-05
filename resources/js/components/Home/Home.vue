@@ -238,7 +238,7 @@ export default {
       return `/images/reactions/reactions_${type}.png`;
     },
     toggleRaction(reaction) {
-      let path = '/post/1';
+      let path = 1;
       let old_reaction = this.auth_reaction;
       axios.post(`/post/${path}/reaction`, { reaction }).catch(() => {
         this.saveReaction(old_reaction, reaction);

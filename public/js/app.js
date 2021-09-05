@@ -2195,7 +2195,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     toggleRaction: function toggleRaction(reaction) {
       var _this4 = this;
 
-      var path = '/post/1';
+      var path = 1;
       var old_reaction = this.auth_reaction;
       axios.post("/post/".concat(path, "/reaction"), {
         reaction: reaction
