@@ -7,19 +7,19 @@
       <ion-icon name="home" class="text-gray-700"></ion-icon>
     </div>
     <div class="px-5 py-3 border-b-8 border-lighter flex">
-      <div class="flex-none">
+      <!-- <div class="flex-none">
         <img
           src="/images/UZ-BabyWildCat2018.png"
           class="flex-none w-12 h-12 rounded-full border border-lighter"
         />
-      </div>
+      </div> -->
       <form @submit.prevent="savePost" class="w-full px-4 relative">
-        <p class="text-lg text-left leading-tight text-gray-700">
+        <!-- <p class="text-lg text-left leading-tight text-gray-700">
           How's your day Wildcat?
-        </p>
+        </p> -->
         <textarea
           v-model="body"
-          placeholder="Meow something..."
+          placeholder="How's your day Wildcat?"
           class="p-5 mt-3 w-full focus:outline-none"
         />
         <div class="flex items-center mt-2">
@@ -44,7 +44,7 @@
       </div>
       <div v-for="post in posts"
         :key="post.id">
-        <a class="w-full" :href="`post/`+post.slug">
+        <!-- <a class="w-full" :href="`post/`+post.slug"> -->
           <div class="w-full p-4 border-b hover:bg-green-100 flex bg-white">
         <div class="flex-none mr-4">
           <img
@@ -56,14 +56,15 @@
           <div class="flex items-center w-full">
             <a :href="post.user.profileLink" class="font-bold text-green-700">{{ post.user.name }}</a>
             <p class="text-sm text-gray-700 text-dark ml-2">@{{post.user.student_no}}</p>
-            <button
+            <!-- Share to Facebook -->
+            <!-- <button
               class="flex focus:outline-none hover:text-white rounded-full hover:bg-green-200 p-3 ml-auto"
             >
               <ion-icon
                 name="logo-facebook"
                 class="text-blue-600 text-xl"
               ></ion-icon>
-            </button>
+            </button> -->
           </div>
           <p class="text-sm flex items-center text-gray-500">
             <ion-icon class="mr-1" name="time"></ion-icon>
@@ -72,8 +73,8 @@
           <p class="py-2 text-xl">
             {{ post.body }}
           </p>
-          <div class="flex items-center w-full text-gray-700 mt-3">
-            <button class="flex focus:outline-none rounded-full hover:bg-green-200 p-3" @click.prevent="likePost(post.id)">
+          <!-- <div class="flex items-center w-full text-gray-700 mt-3">
+             <button class="flex focus:outline-none rounded-full hover:bg-green-200 p-3" @click.prevent="likePost(post.id)">
               <div class="flex items-center">
                 <ion-icon name="thumbs-up-sharp"></ion-icon>
                 <p class="ml-1">{{ totalLike }}</p>
@@ -90,11 +91,52 @@
                 <ion-icon name="chatbubble"></ion-icon>
                 <p class="ml-1">2</p>
               </div>
-            </button>
+            </button> 
+          </div> -->
+          <div>
+            <div class="mt-3 d-flex">
+              <div
+                class="px-1"
+                v-for="(count, reaction) in reactions_summary"
+                :key="reaction"
+                v-show="count"
+              >
+                <img style="width: 20px" :src="image(reaction)" />
+                <span class="px-1">{{ count }}</span>
+              </div>
+            </div>
+
+            <div class="border-top position-relative">
+              <div
+                class="bg-white border rounded shadow-sm position-absolute"
+                style="bottom: 40px"
+                v-show="show_reaction_types"
+              >
+                <button
+                  @click="toggleRaction(type)"
+                  class="btn bg-light"
+                  v-for="type in types"
+                  :key="type"
+                >
+                  <img :src="image(type)" />
+                </button>
+              </div>
+
+              <button
+                @click="show_reaction_types = !show_reaction_types"
+                class="btn btn-link"
+              >
+                <span v-if="auth_reaction">
+                  <img :src="image(auth_reaction)" class="w-25" />
+                  {{ auth_reaction }}
+                </span>
+                <span v-else>Like</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-        </a>
+        <!-- </a> -->
       </div>
       
     </div>
@@ -138,12 +180,20 @@
   </div>
 </template>
 <script>
+import Reactions from '../Reactions.vue';
 export default {
+  props: ["summary", "reacted"],
+  components: { Reactions },
   data() {
     return {
       body: '',
       posts: {},
       totalLike: '',
+
+      show_reaction_types: false,
+      types: ["like", "love", "haha", "angry", "sad", "wow"],
+      reactions_summary: { ...this.summary },
+      auth_reaction: this.reacted ? this.reacted.type : null,
     };
   },
   methods: {
@@ -181,6 +231,40 @@ export default {
           }
       })
       .catch()
+    },
+
+    // Reactions
+    image(type) {
+      return `/images/reactions/reactions_${type}.png`;
+    },
+    toggleRaction(reaction) {
+      let path = '/post/1';
+      let old_reaction = this.auth_reaction;
+      axios.post(`/post/${path}/reaction`, { reaction }).catch(() => {
+        this.saveReaction(old_reaction, reaction);
+      });
+      this.show_reaction_types = false;
+      this.saveReaction(reaction, old_reaction);
+    },
+    saveReaction(new_reaction, old_reaction) {
+      this.resetReactionsSummary(new_reaction, old_reaction);
+      if (this.auth_reaction === new_reaction) {
+        this.auth_reaction = null;
+        return;
+      }
+      this.auth_reaction = new_reaction;
+    },
+    resetReactionsSummary(new_reaction, old_reaction) {
+      if (old_reaction) {
+        this.reactions_summary[old_reaction]--;
+      }
+      if (new_reaction && new_reaction !== old_reaction) {
+        if (!this.reactions_summary[new_reaction]) {
+          this.reactions_summary[new_reaction] = 1;
+          return;
+        }
+        this.reactions_summary[new_reaction]++;
+      }
     },
   },
   created() {

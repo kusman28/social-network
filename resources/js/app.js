@@ -37,6 +37,7 @@ Vue.component('profile', require('./components/Profile/Index.vue').default);
 Vue.component('like', require('./components/LikeDislike/Like.vue').default);
 Vue.component('dislike', require('./components/LikeDislike/Dislike.vue').default);
 
+Vue.component('reactions', require('./components/Reactions.vue').default);
 Vue.component('wildcat-svg', require('./components/Wildcat.vue').default);
 
 /**

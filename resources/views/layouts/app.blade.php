@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') / Social Network</title>
+    <title>@yield('title') | UZ Wildcats</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -15,7 +15,7 @@
     <!-- Styles -->
     <link href="./css/app.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 h-screen antialiased leading-none font-sans">
+<body class="bg-gray-100 h-screen antialiased leading-none font-sans min-h-screen flex items-center justify-center">
     <div id="app" class="flex container h-screen w-full">
         {{-- <header class="bg-green-700 py-6">
             <div class="container mx-auto flex justify-between items-center px-6">

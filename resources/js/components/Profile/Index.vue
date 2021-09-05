@@ -69,14 +69,15 @@
             getProfilePhoto()
             {
                 let profile_pic = (this.form.profile_pic.length > 200) ? this.form.profile_pic : "images/profile/" + this.form.profile_pic;
-                return profile_pic;
-                return "images/profile/"+ this.form.profile_pic;
+                // return profile_pic;
+                return this.form.profile_pic;
             },
             getProfileCover()
             {
                 let profile_cover = (this.form.profile_cover.length > 200) ? this.form.profile_cover : "images/cover/" + this.form.profile_cover;
-                return profile_cover;
-                return "images/cover/"+ this.form.profile_cover;
+                // return profile_cover;
+                // return "images/cover/"+ this.form.profile_cover;
+                return this.form.profile_cover;
             },
             updateInfo()
             {

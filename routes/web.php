@@ -25,6 +25,7 @@ Route::get('user/profile', 'API\ProfileController@profile');
 Route::post('post/save', 'PostController@store');
 Route::get('posts', 'PostController@index')->name('posts.index');
 Route::get('post/{slug?}','PostController@show')->name('post');
+Route::post('post/{post}/reaction','ReactionsController@toggle')->name('toggle')->middleware('auth');
 
 // Follow
 Route::get('users/{user}', 'UserController@show')->name('user.show');

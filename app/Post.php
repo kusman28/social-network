@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Qirolab\Laravel\Reactions\Contracts\ReactableInterface;
+use Qirolab\Laravel\Reactions\Traits\Reactable;
 
-class Post extends Model
+class Post extends Model implements ReactableInterface
 {
+    use Reactable;
+
     protected $guarded = [];
     
     public function user()
